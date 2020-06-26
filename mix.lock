@@ -1,0 +1,4 @@
+%{
+  "multiverses": {:hex, :multiverses, "0.4.1", "8afecd490609f6eeaff209b50de0948fdf23fe2254f9e3d1cd09ebf01b32fc21", [:mix], [], "hexpm", "8f95d1a94bef62c83d556b6fa0588257691fc0df07105d6c9bd5936c27ecbcb5"},
+  "phoenix_pubsub": {:hex, :phoenix_pubsub, "2.0.0", "a1ae76717bb168cdeb10ec9d92d1480fec99e3080f011402c0a2d68d47395ffb", [:mix], [], "hexpm", "c52d948c4f261577b9c6fa804be91884b381a7f8f18450c5045975435350f771"},
+}
