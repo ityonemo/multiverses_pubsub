@@ -36,7 +36,7 @@ defmodule MultiversesPubsub.MixProject do
     [
       # parent library that's being cloned
       {:phoenix_pubsub, "~> #{@phoenix_pubsub_version}"},
-      {:multiverses, "~> 0.5.0"},
+      {:multiverses, "~> 0.5.0", runtime: false},
 
       # for testing and support
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
