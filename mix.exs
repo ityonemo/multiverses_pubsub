@@ -1,12 +1,13 @@
 defmodule MultiversesPubsub.MixProject do
   use Mix.Project
 
+  @multiverses_version "0.6.0"
   @phoenix_pubsub_version "2.0.0"
 
   def project do
     [
       app: :multiverses_pubsub,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -36,13 +37,16 @@ defmodule MultiversesPubsub.MixProject do
     [
       # parent library that's being cloned
       {:phoenix_pubsub, "~> #{@phoenix_pubsub_version}"},
-      {:multiverses, "~> 0.5.0", runtime: false},
+      {:multiverses, "~> #{@multiverses_version}", runtime: false},
 
       # for testing and support
       {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.11", only: :test, runtime: false},
       {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
-      {:dialyxir, "~> 0.5.1", only: :dev, runtime: false}
+      {:dialyxir, "~> 0.5.1", only: :dev, runtime: false},
+
+      # for presence guidelines testing
+      {:phoenix, "~> 1.5.3", only: :test},
     ]
   end
 end

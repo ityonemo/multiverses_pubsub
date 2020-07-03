@@ -7,7 +7,8 @@ module instead.  Presuming that you have created a Presence module like so:
 
 ```elixir
 defmodule MyApp.Presence do
-  use Phoenix.Presence
+  use Phoenix.Presence, otp_app: <my_otp_app>,
+                        pubsub_server: <my_pubsub_server>
 end
 ```
 

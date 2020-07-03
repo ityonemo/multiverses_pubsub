@@ -42,7 +42,6 @@ defmoduler Multiverses.PubsubTest do
     assert_receive :done, 500
   end
 
-
   describe "with broadcast/3" do
     def broadcast do
       PubSub.broadcast(TestPubSub, "topic", :foo)
