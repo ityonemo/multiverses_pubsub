@@ -30,7 +30,7 @@ defmodule Multiverses.Phoenix.PubSub do
   `:"$callers"` implemented by other functionality.
   """
 
-  use Multiverses.MacroClone,
+  use Multiverses.Clone,
     module: Phoenix.PubSub,
     except: [
       broadcast: 3, broadcast: 4,
@@ -45,97 +45,86 @@ defmodule Multiverses.Phoenix.PubSub do
       unsubscribe: 2,
     ]
 
-  defmacro universal(message) do
-    quote do
-      require Multiverses
-      universe_slug = Multiverses.self()
-      |> :erlang.term_to_binary
-      |> Base.url_encode64
+  require Multiverses
 
-      IO.chardata_to_string([unquote(message), "-", universe_slug])
-    end
+  def universal(message) do
+    universe_slug = Multiverses.self()
+    |> :erlang.term_to_binary
+    |> Base.url_encode64
+
+    IO.chardata_to_string([message, "-", universe_slug])
   end
 
-  defclone broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast(pubsub,
-                             Multiverses.Phoenix.PubSub.universal(topic),
+                             universal(topic),
                              message,
                              dispatcher)
   end
 
-  defclone broadcast!(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def broadcast!(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast!(pubsub,
-                              Multiverses.Phoenix.PubSub.universal(topic),
+                              universal(topic),
                               message,
                               dispatcher)
   end
 
-  defclone broadcast_from(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def broadcast_from(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast_from(pubsub,
                                   from,
-                                  Multiverses.Phoenix.PubSub.universal(topic),
+                                  universal(topic),
                                   message,
                                   dispatcher)
   end
 
-  defclone broadcast_from!(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def broadcast_from!(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast_from!(pubsub,
                                    from,
-                                   Multiverses.Phoenix.PubSub.universal(topic),
+                                   universal(topic),
                                    message,
                                    dispatcher)
   end
 
-  defclone direct_broadcast(node_name, pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def direct_broadcast(node_name, pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.direct_broadcast(node_name,
                                     pubsub,
-                                    Multiverses.Phoenix.PubSub.universal(topic),
+                                    universal(topic),
                                     message,
                                     dispatcher)
   end
 
-  defclone direct_broadcast!(node_name, pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def direct_broadcast!(node_name, pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.direct_broadcast!(node_name,
                                      pubsub,
-                                     Multiverses.Phoenix.PubSub.universal(topic),
+                                     universal(topic),
                                      message,
                                      dispatcher)
   end
 
-  defclone local_broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def local_broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.local_broadcast(pubsub,
-                                   Multiverses.Phoenix.PubSub.universal(topic),
+                                   universal(topic),
                                    message,
                                    dispatcher)
   end
 
-  defclone local_broadcast_from(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
-    require Multiverses.Phoenix.PubSub
+  def local_broadcast_from(pubsub, from, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.local_broadcast_from(pubsub,
                                         from,
-                                        Multiverses.Phoenix.PubSub.universal(topic),
+                                        universal(topic),
                                         message,
                                         dispatcher)
   end
 
-  defclone subscribe(pubsub, topic, opts \\ []) do
-    require Multiverses.Phoenix.PubSub
+  def subscribe(pubsub, topic, opts \\ []) do
     Phoenix.PubSub.subscribe(pubsub,
-                             Multiverses.Phoenix.PubSub.universal(topic),
+                             universal(topic),
                              opts)
   end
 
-  defclone unsubscribe(pubsub, topic) do
-    require Multiverses.Phoenix.PubSub
+  def unsubscribe(pubsub, topic) do
     Phoenix.PubSub.subscribe(pubsub,
-                             Multiverses.Phoenix.PubSub.universal(topic))
+                             universal(topic))
   end
 
 end

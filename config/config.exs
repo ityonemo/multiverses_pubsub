@@ -1,5 +1,5 @@
 import Config
 
 if Mix.env() == :test do
-  config :phoenix, :json_library, Poison
+  config :phoenix, :json_library, Jason
 end

@@ -1,7 +1,7 @@
 defmodule MultiversesPubsub.MixProject do
   use Mix.Project
 
-  @multiverses_version "0.6.0"
+  @multiverses_version "0.7.0"
   @phoenix_pubsub_version "2.0.0"
 
   def project do
@@ -40,13 +40,14 @@ defmodule MultiversesPubsub.MixProject do
       {:multiverses, "~> #{@multiverses_version}", runtime: false},
 
       # for testing and support
-      {:credo, "~> 1.3", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.11", only: :test, runtime: false},
       {:ex_doc, "~> 0.21.2", only: :dev, runtime: false},
       {:dialyxir, "~> 0.5.1", only: :dev, runtime: false},
 
       # for presence guidelines testing
       {:phoenix, "~> 1.5.3", only: :test},
+      {:jason, "~> 1.2", only: [:dev, :test]}
     ]
   end
 end

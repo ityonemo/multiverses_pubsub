@@ -24,7 +24,7 @@ defmodule Multiverses.MyApp.Presence do
       track: 4, untrack: 3, update: 4
     ]
 
-  defclone fetch(topic, presences) do
+  def fetch(topic, presences) do
     if is_binary(topic) do
       MyApp.Presence.fetch(Multiverses.Phoenix.PubSub.universal(topic), presences)
     else
@@ -33,7 +33,7 @@ defmodule Multiverses.MyApp.Presence do
     end
   end
 
-  defclone get_by_key(topic, presences) do
+  def get_by_key(topic, presences) do
     if is_binary(topic) do
       MyApp.Presence.get_by_key(Multiverses.Phoenix.PubSub.universal(topic), presences)
     else
@@ -42,7 +42,7 @@ defmodule Multiverses.MyApp.Presence do
     end
   end
 
-  defclone list(topic) do
+  def list(topic) do
     if is_binary(topic) do
       MyApp.Presence.list(Multiverses.Phoenix.PubSub.universal(topic))
     else
@@ -51,15 +51,15 @@ defmodule Multiverses.MyApp.Presence do
     end
   end
 
-  defclone track(pid, topic, key, meta) do
+  def track(pid, topic, key, meta) do
     MyApp.Presence.track(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
   end
 
-  defclone untrack(pid, topic, key) do
+  def untrack(pid, topic, key) do
     MyApp.Presence.untrack(pid, Multiverses.Phoenix.PubSub.universal(topic), key)
   end
 
-  defclone update(pid, topic, key, meta) do
+  def update(pid, topic, key, meta) do
     MyApp.Presence.update(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
   end
 end
