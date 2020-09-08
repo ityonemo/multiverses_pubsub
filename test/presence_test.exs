@@ -1,55 +1,22 @@
-defmodule MyApp.Presence do
-  use Phoenix.Presence, otp_app: :multiverses_pubsub,
-                        pubsub_server: TestPubSub
-end
+# parse the guides to obtain the test content
+code_examples = __DIR__
+|> Path.join("../guides/phoenix.presence.md")
+|> File.read!
+|> String.split("```")
+|> Enum.filter(&String.starts_with?(&1, "elixir"))
+|> Enum.map(&String.trim(&1, "elixir"))
 
-defmodule Multiverses.MyApp.Presence do
-  use Multiverses.Clone,
-    module: MyApp.Presence,
-    except: [
-      fetch: 2, get_by_key: 2, list: 1,
-      track: 4, untrack: 3, update: 4
-    ]
+# replace the "pubsub module creation example"
+code_examples
+|> Enum.at(0)
+|> String.replace("<my_otp_app>", ":multiverses_pubsub")
+|> String.replace("<my_pubsub_server>", "TestPubSub")
+|> Code.compile_string
 
-  def fetch(topic, presences) do
-    if is_binary(topic) do
-      MyApp.Presence.fetch(Multiverses.Phoenix.PubSub.universal(topic), presences)
-    else
-      # channel
-      MyApp.Presence.fetch(topic, presences)
-    end
-  end
-
-  def get_by_key(topic, presences) do
-    if is_binary(topic) do
-      MyApp.Presence.get_by_key(Multiverses.Phoenix.PubSub.universal(topic), presences)
-    else
-      # channel
-      MyApp.Presence.get_by_key(topic, presences)
-    end
-  end
-
-  def list(topic) do
-    if is_binary(topic) do
-      MyApp.Presence.list(Multiverses.Phoenix.PubSub.universal(topic))
-    else
-      # channel
-      MyApp.Presence.list(topic)
-    end
-  end
-
-  def track(pid, topic, key, meta) do
-    MyApp.Presence.track(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
-  end
-
-  def untrack(pid, topic, key) do
-    MyApp.Presence.untrack(pid, Multiverses.Phoenix.PubSub.universal(topic), key)
-  end
-
-  def update(pid, topic, key, meta) do
-    MyApp.Presence.update(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
-  end
-end
+# replace the "presence module creation example"
+code_examples
+|> Enum.at(1)
+|> Code.compile_string
 
 import MultiversesTest.Replicant
 defmoduler MultiversesTest.PresenceTest do

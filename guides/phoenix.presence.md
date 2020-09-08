@@ -17,7 +17,7 @@ placing it next to your `MyApp.Presence` module
 
 ```elixir
 defmodule Multiverses.MyApp.Presence do
-  use Multiverses.MacroClone,
+  use Multiverses.Clone,
     module: MyApp.Presence,
     except: [
       fetch: 2, get_by_key: 2, list: 1,

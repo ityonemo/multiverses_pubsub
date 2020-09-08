@@ -9,7 +9,7 @@ The package can be installed by adding `multiverses_pubsub` to your list of depe
 ```elixir
 def deps do
   [
-    {:multiverses_pubsub, "~> 0.1.0"}
+    {:multiverses_pubsub, "~> 0.3.0", runtime: (Mix.env == :test)}
   ]
 end
 ```
