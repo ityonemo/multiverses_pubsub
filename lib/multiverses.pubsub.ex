@@ -103,7 +103,7 @@ defmodule Multiverses.PubSub do
 
   @strict Application.compile_env(:multiverses_pubsub, :strict, true)
 
-  defp sharded(topic) do
+  def sharded(topic) do
     shard = if id = Multiverses.id(PubSub, strict: @strict), do: "-#{id}"
     "#{topic}#{shard}"
   end

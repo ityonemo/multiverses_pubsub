@@ -1,4 +1,4 @@
-# MultiversesPubsub
+# Multiverses.PubSub
 
 Multiverses support for Phoenix PubSub
 

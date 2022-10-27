@@ -17,7 +17,7 @@ In your `test_helpers.exs` file (or in a support directory), build the replaceme
 ```elixir
 
 require Multiverses.Presence
-Multiverses.Presence.generate(MyApp.Multiverse.Presence, MyApp.Presence)
+Multiverses.Presence.clone(MyApp.Presence, as: MyApp.Multiverse.Presence)
 
 ```
 
@@ -42,6 +42,18 @@ defmodule MyApp.UsesPresence do
   @my_app_presence Application.compile_env!(:my_app, MyApp.Presence)
 
   #...
+end
+```
+
+### in your test module
+
+```elixir
+defmodule MyAppTest.UsesPresenceTest do
+  use ExUnit.Case, async: true
+
+  setup do
+    Multiverses.shard(PubSub)
+  end
 end
 ```
 

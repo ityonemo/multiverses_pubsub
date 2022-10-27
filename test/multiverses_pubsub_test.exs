@@ -1,6 +1,6 @@
 import MultiversesTest.Replicant
 
-defmoduler Multiverses.PubsubTest do
+defmoduler Multiverses.PubSubTest do
   use ExUnit.Case, async: true
 
   @pub_sub Multiverses.PubSub
