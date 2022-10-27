@@ -2,13 +2,18 @@ import MultiversesTest.Replicant
 
 defmoduler Multiverses.PubsubTest do
   use ExUnit.Case, async: true
-  use Multiverses, with: Phoenix.PubSub
+
+  @pub_sub Multiverses.PubSub
+
+  setup do
+    Multiverses.shard(PubSub)
+  end
 
   def run_same_universe(dispatch) do
     test_pid = self()
 
     Task.async(fn ->
-      PubSub.subscribe(TestPubSub, "topic")
+      @pub_sub.subscribe(TestPubSub, "topic")
       send(test_pid, :unlock)
 
       assert_receive :foo
@@ -16,7 +21,9 @@ defmoduler Multiverses.PubsubTest do
       send(test_pid, :done)
     end)
 
-    receive do :unlock -> :me end
+    receive do
+      :unlock -> :me
+    end
 
     dispatch.()
 
@@ -27,7 +34,8 @@ defmoduler Multiverses.PubsubTest do
     test_pid = self()
 
     spawn(fn ->
-      PubSub.subscribe(TestPubSub, "topic")
+      Multiverses.shard(PubSub)
+      @pub_sub.subscribe(TestPubSub, "topic")
       send(test_pid, :unlock)
 
       refute_receive :foo
@@ -35,7 +43,9 @@ defmoduler Multiverses.PubsubTest do
       send(test_pid, :done)
     end)
 
-    receive do :unlock -> :me end
+    receive do
+      :unlock -> :me
+    end
 
     dispatch.()
 
@@ -44,7 +54,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with broadcast/3" do
     def broadcast do
-      PubSub.broadcast(TestPubSub, "topic", :foo)
+      @pub_sub.broadcast(TestPubSub, "topic", :foo)
     end
 
     test "same_universe works" do
@@ -58,7 +68,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with broadcast!/3" do
     def broadcast! do
-      PubSub.broadcast(TestPubSub, "topic", :foo)
+      @pub_sub.broadcast(TestPubSub, "topic", :foo)
     end
 
     test "same_universe works" do
@@ -72,7 +82,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with broadcast_from/4" do
     def broadcast_from do
-      PubSub.broadcast_from(TestPubSub, self(), "topic", :foo)
+      @pub_sub.broadcast_from(TestPubSub, self(), "topic", :foo)
     end
 
     test "same_universe works" do
@@ -86,7 +96,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with broadcast_from!/4" do
     def broadcast_from! do
-      PubSub.broadcast_from!(TestPubSub, self(), "topic", :foo)
+      @pub_sub.broadcast_from!(TestPubSub, self(), "topic", :foo)
     end
 
     test "same_universe works" do
@@ -100,7 +110,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with direct_broadcast/4" do
     def direct_broadcast do
-      PubSub.direct_broadcast(Node.self(), TestPubSub, "topic", :foo)
+      @pub_sub.direct_broadcast(Node.self(), TestPubSub, "topic", :foo)
     end
 
     test "same_universe works" do
@@ -114,7 +124,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with direct_broadcast!/4" do
     def direct_broadcast! do
-      PubSub.direct_broadcast!(Node.self(), TestPubSub, "topic", :foo)
+      @pub_sub.direct_broadcast!(Node.self(), TestPubSub, "topic", :foo)
     end
 
     test "same_universe works" do
@@ -128,7 +138,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with local_broadcast/3" do
     def local_broadcast do
-      PubSub.local_broadcast(TestPubSub, "topic", :foo)
+      @pub_sub.local_broadcast(TestPubSub, "topic", :foo)
     end
 
     test "same_universe works" do
@@ -142,7 +152,7 @@ defmoduler Multiverses.PubsubTest do
 
   describe "with local_broadcast_from/4" do
     def local_broadcast_from do
-      PubSub.local_broadcast_from(TestPubSub, self(), "topic", :foo)
+      @pub_sub.local_broadcast_from(TestPubSub, self(), "topic", :foo)
     end
 
     test "same_universe works" do

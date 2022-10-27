@@ -1,5 +1,4 @@
 import Config
 
-if Mix.env() == :test do
-  config :phoenix, :json_library, Jason
-end
+config :multiverses_pubsub, strict: true
+config :multiverses, with_replicant: config_env() == :test
