@@ -1,4 +1,3 @@
 import Config
 
-config :multiverses_pubsub, strict: true
-config :multiverses, with_replicant: config_env() == :test
+config :multiverses, with_replicant: true

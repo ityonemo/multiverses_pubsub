@@ -33,7 +33,7 @@ defmodule Multiverses.PubSub do
 
   ```elixir
   defmodule MyPubSubModule do
-    @pubsub Application.compile_env!(Phoenix.PubSub)
+    @pubsub Application.compile_env!(:my_app, Phoenix.PubSub)
   end
   ```
 
@@ -101,11 +101,11 @@ defmodule Multiverses.PubSub do
       unsubscribe: 2
     ]
 
-  @strict Application.get_env(:multiverses_pubsub, :strict)
+  @strict Application.compile_env(:multiverses_pubsub, :strict, true)
 
   defp sharded(topic) do
-    shard = if id = Multiverses.id(PubSub, strict: @strict), do: "#{id}-"
-    "#{shard}topic"
+    shard = if id = Multiverses.id(PubSub, strict: @strict), do: "-#{id}"
+    "#{topic}#{shard}"
   end
 
   def broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do

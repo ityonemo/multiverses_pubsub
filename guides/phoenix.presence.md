@@ -12,65 +12,39 @@ defmodule MyApp.Presence do
 end
 ```
 
-The next step is to place the following module in your tree.  You may consider
-placing it next to your `MyApp.Presence` module
+In your `test_helpers.exs` file (or in a support directory), build the replacement presence module.
 
 ```elixir
-defmodule Multiverses.MyApp.Presence do
-  use Multiverses.Clone,
-    module: MyApp.Presence,
-    except: [
-      fetch: 2, get_by_key: 2, list: 1,
-      track: 4, untrack: 3, update: 4
-    ]
 
-  def fetch(topic, presences) do
-    if is_binary(topic) do
-      MyApp.Presence.fetch(Multiverses.Phoenix.PubSub.universal(topic), presences)
-    else
-      # channel
-      MyApp.Presence.fetch(topic, presences)
-    end
-  end
+require Multiverses.Presence
+Multiverses.Presence.generate(MyApp.Multiverse.Presence, MyApp.Presence)
 
-  def get_by_key(topic, presences) do
-    if is_binary(topic) do
-      MyApp.Presence.get_by_key(Multiverses.Phoenix.PubSub.universal(topic), presences)
-    else
-      # channel
-      MyApp.Presence.get_by_key(topic, presences)
-    end
-  end
+```
 
-  def list(topic) do
-    if is_binary(topic) do
-      MyApp.Presence.list(Multiverses.Phoenix.PubSub.universal(topic))
-    else
-      # channel
-      MyApp.Presence.list(topic)
-    end
-  end
+Now set up your configuration:
 
-  def track(pid, topic, key, meta) do
-    MyApp.Presence.track(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
-  end
+### in `config.exs`
 
-  def untrack(pid, topic, key) do
-    MyApp.Presence.untrack(pid, Multiverses.Phoenix.PubSub.universal(topic), key)
-  end
+```elixir
+config :my_app, MyApp.Presence, MyApp.Presence
+```
 
-  def update(pid, topic, key, meta) do
-    MyApp.Presence.update(pid, Multiverses.Phoenix.PubSub.universal(topic), key, meta)
-  end
+### in `test.exs`
+
+```elixir
+config :my_app, MyApp.Presence, MyApp.Multiverse.Presence
+```
+
+### in modules that use presence
+
+```elixir
+defmodule MyApp.UsesPresence do
+  @my_app_presence Application.compile_env!(:my_app, MyApp.Presence)
+
+  #...
 end
 ```
 
-Now you are ready to use your Presence module in multiverse module!  Any module
-which might need to access it in multiverse mode, should use it as follows:
-
-```elixir
-use Multiverses, with: MyApp.Presence
-```
 
 ## Important Note:
 
