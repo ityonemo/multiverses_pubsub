@@ -1,9 +1,3 @@
-defmodule MultiversesTest.Presence do
-  use Phoenix.Presence,
-    otp_app: :multiverses_pubsub,
-    pubsub_server: TestPubSub
-end
-
 require Multiverses.Presence
 Multiverses.Presence.clone(MultiversesTest.Presence, as: MultiversesTest.Multiverses.Presence)
 
@@ -14,11 +8,6 @@ defmoduler MultiversesTest.PresenceTest do
 
   @pub_sub Multiverses.PubSub
   @presence MultiversesTest.Multiverses.Presence
-
-  setup_all do
-    Supervisor.start_link([MultiversesTest.Presence], strategy: :one_for_one)
-    :ok
-  end
 
   setup do
     Multiverses.shard(PubSub)
