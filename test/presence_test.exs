@@ -1,12 +1,13 @@
-import MultiversesTest.Replicant
-
 defmodule MultiversesTest.Presence do
-  use Phoenix.Presence, otp_app: :multiverses_pubsub,
-                        pubsub_server: TestPubSub
+  use Phoenix.Presence,
+    otp_app: :multiverses_pubsub,
+    pubsub_server: TestPubSub
 end
 
 require Multiverses.Presence
 Multiverses.Presence.clone(MultiversesTest.Presence, as: MultiversesTest.Multiverses.Presence)
+
+import MultiversesTest.Replicant
 
 defmoduler MultiversesTest.PresenceTest do
   use ExUnit.Case, async: true

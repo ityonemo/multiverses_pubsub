@@ -103,7 +103,7 @@ defmodule Multiverses.PubSub do
 
   @strict Application.compile_env(:multiverses_pubsub, :strict, true)
 
-  def sharded(topic) do
+  def _sharded(topic) do
     shard = if id = Multiverses.id(PubSub, strict: @strict), do: "-#{id}"
     "#{topic}#{shard}"
   end
@@ -111,7 +111,7 @@ defmodule Multiverses.PubSub do
   def broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast(
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -120,7 +120,7 @@ defmodule Multiverses.PubSub do
   def broadcast!(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.broadcast!(
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -130,7 +130,7 @@ defmodule Multiverses.PubSub do
     Phoenix.PubSub.broadcast_from(
       pubsub,
       from,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -140,7 +140,7 @@ defmodule Multiverses.PubSub do
     Phoenix.PubSub.broadcast_from!(
       pubsub,
       from,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -150,7 +150,7 @@ defmodule Multiverses.PubSub do
     Phoenix.PubSub.direct_broadcast(
       node_name,
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -160,7 +160,7 @@ defmodule Multiverses.PubSub do
     Phoenix.PubSub.direct_broadcast!(
       node_name,
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -169,7 +169,7 @@ defmodule Multiverses.PubSub do
   def local_broadcast(pubsub, topic, message, dispatcher \\ Phoenix.PubSub) do
     Phoenix.PubSub.local_broadcast(
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -179,7 +179,7 @@ defmodule Multiverses.PubSub do
     Phoenix.PubSub.local_broadcast_from(
       pubsub,
       from,
-      sharded(topic),
+      _sharded(topic),
       message,
       dispatcher
     )
@@ -188,7 +188,7 @@ defmodule Multiverses.PubSub do
   def subscribe(pubsub, topic, opts \\ []) do
     Phoenix.PubSub.subscribe(
       pubsub,
-      sharded(topic),
+      _sharded(topic),
       opts
     )
   end
@@ -196,7 +196,7 @@ defmodule Multiverses.PubSub do
   def unsubscribe(pubsub, topic) do
     Phoenix.PubSub.subscribe(
       pubsub,
-      sharded(topic)
+      _sharded(topic)
     )
   end
 end

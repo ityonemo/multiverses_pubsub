@@ -17,6 +17,7 @@ defmodule MultiversesPubsub.MixProject do
         files: ~w(lib mix.exs README* LICENSE* VERSIONS*),
         links: %{"GitHub" => "https://github.com/ityonemo/multiverses_pubsub"}
       ],
+      elixirc_paths: elixirc_paths(Mix.env()),
       docs: [
         main: "Multiverses.Phoenix.PubSub",
         extra_section: "GUIDES",
@@ -33,11 +34,14 @@ defmodule MultiversesPubsub.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
       # parent library that's being cloned
       {:phoenix_pubsub, "~> #{@phoenix_pubsub_version}"},
-      #{:multiverses, "~> #{@multiverses_version}"},
+      # {:multiverses, "~> #{@multiverses_version}"},
       {:multiverses, path: "../multiverses"},
 
       # for testing and support
