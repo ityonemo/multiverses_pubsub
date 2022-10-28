@@ -1,7 +1,7 @@
 defmodule MultiversesPubsub.MixProject do
   use Mix.Project
 
-  @multiverses_version "0.8.0"
+  @multiverses_version "0.9.0"
   @phoenix_pubsub_version "2.1.0"
 
   def project do
@@ -39,8 +39,8 @@ defmodule MultiversesPubsub.MixProject do
     [
       # parent library that's being cloned
       {:phoenix_pubsub, "~> #{@phoenix_pubsub_version}"},
-      # {:multiverses, "~> #{@multiverses_version}"},
-      {:multiverses, path: "../multiverses"},
+      {:multiverses, "~> #{@multiverses_version}"},
+      {:phoenix, "~> 1.6", optional: Mix.env() == :prod},
 
       # for testing and support
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},

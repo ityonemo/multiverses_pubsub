@@ -122,7 +122,7 @@ defmodule Multiverses.Tracker do
           |> state.module.handle_diff(state)
 
         {[], hasnt} ->
-          iterate_diff(rest, diff, state)
+          iterate_diff(rest, hasnt, state)
 
         {has, hasnt} ->
           has
@@ -131,7 +131,7 @@ defmodule Multiverses.Tracker do
           |> state.module.handle_diff(state)
           |> case do
             {:ok, new_state} ->
-              iterate_diff(rest, diff, new_state)
+              iterate_diff(rest, hasnt, new_state)
 
             error ->
               error
