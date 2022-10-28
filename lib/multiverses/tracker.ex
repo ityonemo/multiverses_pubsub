@@ -1,5 +1,72 @@
 defmodule Multiverses.Tracker do
   @moduledoc """
+  ## Using Multiverses With Phoenix Tracker
+
+  Now set up your configuration:
+
+  ### in `config.exs`
+
+  ```elixir
+  config :my_app, Phoenix.PubSub, Phoenix.PubSub
+  config :my_app, Phoenix.Tracker, Phoenix.Tracker
+  ```
+
+  ### in `test.exs`
+
+  ```elixir
+  config :my_app, Phoenix.PubSub, Multiverse.PubSub
+  config :my_app, Phoenix.Tracker, Multiverse.Tracker
+  ```
+
+  ### Create your tracker module
+
+  implement a minimal tracker as follows:
+
+  Note that the `handle_diff` callback will be executed in separate batches,
+  one for each known universe shard.
+
+  ```elixir
+  defmodule MyApp.Tracker do
+    use Phoenix.Tracker
+
+    @phoenix_tracker Application.get_env(:my_app, Phoenix.Tracker)
+    @phoenix_pubsub Application.get_env(:my_app, Phoenix.PubSub)
+
+    def start_link(opts) do
+      opts = Keyword.merge([name: __MODULE__], opts)
+      @phoenix_tracker.start_link(__MODULE__, opts, opts)
+    end
+
+    def init(opts) do
+      server = Keyword.fetch!(opts, :pubsub_server)
+      {:ok, %{pubsub_server: server, node_name: Phoenix.PubSub.node_name(server)}}
+    end
+
+    def handle_diff(diff, state) do
+      for {topic, {joins, leaves}} <- diff do
+        for {_key, meta} <- joins do
+          @phoenix_pubsub.broadcast(...)
+        end
+
+        for {_key, meta} <- leaves do
+          @phoenix_pubsub.broadcast(...)
+        end
+      end
+
+      {:ok, state}
+    end
+  end
+  ```
+
+  ## wherever you use Tracker
+
+  ```elixir
+  defmodule MyApp.UsesTracker do
+    @tracker Application.compile_env!(:my_app, Phoenix.Tracker)
+
+    # ...
+  end
+  ```
   """
 
   use Multiverses.Clone,
@@ -51,7 +118,7 @@ defmodule Multiverses.Tracker do
         {has, []} ->
           has
           |> Enum.map(&trim_topic(&1, suffix))
-          |> Map.new
+          |> Map.new()
           |> state.module.handle_diff(state)
 
         {[], hasnt} ->

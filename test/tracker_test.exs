@@ -62,7 +62,10 @@ defmoduler MultiverseTest.TrackerTest do
         Multiverses.shard(PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         send(this, :unblock)
-        receive do :hold -> :open end
+
+        receive do
+          :hold -> :open
+        end
       end)
 
       assert_receive :unblock
@@ -72,12 +75,17 @@ defmoduler MultiverseTest.TrackerTest do
     test "untrack/4" do
       this = self()
       @pubsub.subscribe(TestPubSub, "left")
+
       spawn_link(fn ->
         Multiverses.shard(PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         @tracker.untrack(TestTracker, self(), "topic", "base")
-        receive do :hold -> :open end
+
+        receive do
+          :hold -> :open
+        end
       end)
+
       refute_received {:left, _, _}
     end
 
@@ -90,7 +98,10 @@ defmoduler MultiverseTest.TrackerTest do
         Multiverses.shard(PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         @tracker.update(TestTracker, self(), "topic", "base", %{pid: this, state: "extra"})
-        receive do :hold -> :open end
+
+        receive do
+          :hold -> :open
+        end
       end)
 
       refute_receive {:joined, _, _}
@@ -99,23 +110,33 @@ defmoduler MultiverseTest.TrackerTest do
 
     test "get_by_key/3" do
       this = self()
+
       spawn_link(fn ->
         Multiverses.shard(PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         assert [_] = @tracker.get_by_key(TestTracker, "topic", "base")
-        receive do :hold -> :open end
+
+        receive do
+          :hold -> :open
+        end
       end)
+
       assert [] = @tracker.get_by_key(TestTracker, "topic", "base")
     end
 
     test "list/2" do
       this = self()
+
       spawn_link(fn ->
         Multiverses.shard(PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         assert [_] = @tracker.list(TestTracker, "topic")
-        receive do :hold -> :open end
+
+        receive do
+          :hold -> :open
+        end
       end)
+
       assert [] = @tracker.list(TestTracker, "topic")
     end
   end

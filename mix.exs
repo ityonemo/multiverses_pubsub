@@ -20,9 +20,7 @@ defmodule MultiversesPubsub.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       docs: [
         main: "Multiverses.Phoenix.PubSub",
-        extra_section: "GUIDES",
-        groups_for_extras: [Guides: ~r/guides\/.?/],
-        extras: ["README.md", "guides/phoenix.presence.md"],
+        extras: ["README.md"],
         source_url: "https://github.com/ityonemo/multiverses_pubsub"
       ]
     ]
