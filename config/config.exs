@@ -1,7 +1,6 @@
 import Config
 
-config :multiverses, with_replicant: true
-
 if config_env() != :prod do
+  config :multiverses, with_replicant: true
   config :phoenix, :json_library, Jason
 end
