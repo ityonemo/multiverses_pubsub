@@ -20,7 +20,9 @@ defmodule Multiverses.Tracker do
 
   ### Create your tracker module
 
-  implement a minimal tracker as follows:
+  As usual, you must implement a a Tracker module.  This is an example
+  Tracker module that is a direct reinterpretation of the example `Phoenix.Tracker`
+  module.  If you have your own tracker logic, use that instead.
 
   Note that the `handle_diff` callback will be executed in separate batches,
   one for each known universe shard.
@@ -62,9 +64,10 @@ defmodule Multiverses.Tracker do
 
   ```elixir
   defmodule MyApp.UsesTracker do
+    # in place of `alias Phoenix.Tracker`
     @tracker Application.compile_env!(:my_app, Phoenix.Tracker)
 
-    # ...
+    # ... code with @tracker in place of Tracker
   end
   ```
   """
