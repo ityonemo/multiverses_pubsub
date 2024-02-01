@@ -77,6 +77,9 @@ defmodule Multiverses.PubSub do
   > pid will not be connected to the correct multiverse shard.
   """
 
+  @doc false
+  def dispatch(_, _, _)
+
   use Multiverses.Clone,
     module: Phoenix.PubSub,
     except: [
