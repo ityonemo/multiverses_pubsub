@@ -1,8 +1,8 @@
 defmodule MultiversesPubsub.MixProject do
   use Mix.Project
 
-  @multiverses_version "0.10.0"
-  @phoenix_pubsub_version "2.1.0"
+  @multiverses_version "0.11.0"
+  @phoenix_pubsub_version "2.1"
 
   def project do
     [
