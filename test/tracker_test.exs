@@ -7,7 +7,7 @@ defmoduler MultiverseTest.TrackerTest do
   @tracker Multiverses.Tracker
 
   setup do
-    Multiverses.shard(PubSub)
+    Multiverses.shard(Phoenix.PubSub)
     :ok
   end
 
@@ -59,7 +59,7 @@ defmoduler MultiverseTest.TrackerTest do
       @pubsub.subscribe(TestPubSub, "joined")
 
       spawn_link(fn ->
-        Multiverses.shard(PubSub)
+        Multiverses.shard(Phoenix.PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         send(this, :unblock)
 
@@ -77,7 +77,7 @@ defmoduler MultiverseTest.TrackerTest do
       @pubsub.subscribe(TestPubSub, "left")
 
       spawn_link(fn ->
-        Multiverses.shard(PubSub)
+        Multiverses.shard(Phoenix.PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         @tracker.untrack(TestTracker, self(), "topic", "base")
 
@@ -95,7 +95,7 @@ defmoduler MultiverseTest.TrackerTest do
       @pubsub.subscribe(TestPubSub, "joined")
 
       spawn_link(fn ->
-        Multiverses.shard(PubSub)
+        Multiverses.shard(Phoenix.PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         @tracker.update(TestTracker, self(), "topic", "base", %{pid: this, state: "extra"})
 
@@ -112,7 +112,7 @@ defmoduler MultiverseTest.TrackerTest do
       this = self()
 
       spawn_link(fn ->
-        Multiverses.shard(PubSub)
+        Multiverses.shard(Phoenix.PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         assert [_] = @tracker.get_by_key(TestTracker, "topic", "base")
 
@@ -128,7 +128,7 @@ defmoduler MultiverseTest.TrackerTest do
       this = self()
 
       spawn_link(fn ->
-        Multiverses.shard(PubSub)
+        Multiverses.shard(Phoenix.PubSub)
         @tracker.track(TestTracker, self(), "topic", "base", %{pid: this})
         assert [_] = @tracker.list(TestTracker, "topic")
 

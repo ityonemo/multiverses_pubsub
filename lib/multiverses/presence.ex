@@ -54,7 +54,7 @@ defmodule Multiverses.Presence do
     use ExUnit.Case, async: true
 
     setup do
-      Multiverses.shard(PubSub)
+      Multiverses.shard(Phoenix.PubSub)
     end
   end
   ```

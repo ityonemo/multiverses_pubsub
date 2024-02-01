@@ -44,7 +44,7 @@ defmodule Multiverses.PubSub do
     use ExUnit.Case, async: true
 
     setup do
-      Multiverses.shard(PubSub)
+      Multiverses.shard(Phoenix.PubSub)
     end
 
   end
@@ -104,7 +104,7 @@ defmodule Multiverses.PubSub do
   @strict Application.compile_env(:multiverses_pubsub, :strict, true)
 
   def _sharded(topic) do
-    shard = if id = Multiverses.id(PubSub, strict: @strict), do: "-#{id}"
+    shard = if id = Multiverses.id(Phoenix.PubSub, strict: @strict), do: "-#{id}"
     "#{topic}#{shard}"
   end
 

@@ -10,7 +10,7 @@ defmoduler MultiversesTest.PresenceTest do
   @presence MultiversesTest.Multiverses.Presence
 
   setup do
-    Multiverses.shard(PubSub)
+    Multiverses.shard(Phoenix.PubSub)
     :ok
   end
 
@@ -39,7 +39,7 @@ defmoduler MultiversesTest.PresenceTest do
     @pub_sub.subscribe(TestPubSub, "test")
 
     spawn_link(fn ->
-      Multiverses.shard(PubSub)
+      Multiverses.shard(Phoenix.PubSub)
       @pub_sub.subscribe(TestPubSub, "test")
 
       send(test_pid, :synchronize)

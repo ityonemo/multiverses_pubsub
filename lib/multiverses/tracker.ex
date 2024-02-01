@@ -103,7 +103,7 @@ defmodule Multiverses.Tracker do
   end
 
   def handle_diff(diff, state) do
-    PubSub
+    Phoenix.PubSub
     |> Multiverses.all()
     |> iterate_diff(diff, state)
   end
@@ -111,7 +111,7 @@ defmodule Multiverses.Tracker do
   defp iterate_diff([], _diff, state), do: {:ok, state}
 
   defp iterate_diff([id | rest], diff, state) do
-    Multiverses.allow_for(PubSub, id, fn ->
+    Multiverses.allow_for(Phoenix.PubSub, id, fn ->
       suffix = "-#{id}"
 
       case Enum.split_with(diff, &String.ends_with?(elem(&1, 0), suffix)) do

@@ -6,7 +6,7 @@ defmoduler Multiverses.PubSubTest do
   @pub_sub Multiverses.PubSub
 
   setup do
-    Multiverses.shard(PubSub)
+    Multiverses.shard(Phoenix.PubSub)
   end
 
   def run_same_universe(dispatch) do
@@ -34,7 +34,7 @@ defmoduler Multiverses.PubSubTest do
     test_pid = self()
 
     spawn(fn ->
-      Multiverses.shard(PubSub)
+      Multiverses.shard(Phoenix.PubSub)
       @pub_sub.subscribe(TestPubSub, "topic")
       send(test_pid, :unlock)
 

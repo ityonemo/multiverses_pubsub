@@ -14,3 +14,8 @@
 - upgrades to use scheme in Multiverses 0.9.0
 - support for Phoenix.Tracker
 - clustering support
+
+# 0.6.0
+
+- changes to use Phoenix.PubSub as the alias due to
+  conflicts with `alias MyProject.PubSub`.

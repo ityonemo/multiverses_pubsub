@@ -7,7 +7,7 @@ defmoduler MultiversesTest.PeerTest do
   require Peer
 
   setup do
-    [{{PubSub, _}, shard_id}] = Multiverses.shard(PubSub)
+    [{{Phoenix.PubSub, _}, shard_id}] = Multiverses.shard(Phoenix.PubSub)
     {:ok, shard_id: shard_id}
   end
 
@@ -16,7 +16,7 @@ defmoduler MultiversesTest.PeerTest do
 
     _ =
       Peer.call shard_id: shard_id do
-        Multiverses.allow(PubSub, shard_id, self())
+        Multiverses.allow(Phoenix.PubSub, shard_id, self())
         Multiverses.PubSub.broadcast(TestPubSub, "topic", :foo)
       end
 
@@ -29,7 +29,7 @@ defmoduler MultiversesTest.PeerTest do
     _ =
       Peer.call shard_id: shard_id, this: this do
         Task.start(fn ->
-          Multiverses.allow(PubSub, shard_id, self())
+          Multiverses.allow(Phoenix.PubSub, shard_id, self())
           Multiverses.PubSub.subscribe(TestPubSub, "topic")
           send(this, :unblock)
 

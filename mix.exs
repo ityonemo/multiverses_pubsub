@@ -7,7 +7,7 @@ defmodule MultiversesPubsub.MixProject do
   def project do
     [
       app: :multiverses_pubsub,
-      version: "0.5.0",
+      version: "0.6.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
